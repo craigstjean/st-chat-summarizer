@@ -1,3 +1,4 @@
 export default function CharactersPage() {
-  return null;
+    return null;
 }
+

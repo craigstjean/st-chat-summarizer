@@ -1,28 +1,28 @@
 package middleware
 
 import (
-    "time"
+	"time"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 func RequestLogger() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        // Start timer
-        start := time.Now()
+	return func(c *gin.Context) {
+		// Start timer
+		start := time.Now()
 
-        // Process request
-        c.Next()
+		// Process request
+		c.Next()
 
-        // Calculate latency
-        latency := time.Since(start)
+		// Calculate latency
+		latency := time.Since(start)
 
-        // Log request details
-        gin.DefaultWriter.Write([]byte(
-            "Method: " + c.Request.Method + " | " +
-            "Path: " + c.Request.URL.Path + " | " +
-            "Status: " + string(c.Writer.Status()) + " | " +
-            "Latency: " + latency.String() + "\n",
-        ))
-    }
+		// Log request details
+		gin.DefaultWriter.Write([]byte(
+			"Method: " + c.Request.Method + " | " +
+				"Path: " + c.Request.URL.Path + " | " +
+				"Status: " + string(rune(c.Writer.Status())) + " | " +
+				"Latency: " + latency.String() + "\n",
+		))
+	}
 }

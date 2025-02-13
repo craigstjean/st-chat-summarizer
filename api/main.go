@@ -45,6 +45,9 @@ func initializeRoutes(r *gin.Engine) {
 
 		// Characters routes
 		api.GET("/characters", charactersHandler.GetCharacters)
+		api.GET("/characters/:character/backups", charactersHandler.GetCharacterBackups)
+		api.GET("/characters/:character/backups/:backup", charactersHandler.GetCharacterBackup)
+		api.POST("/characters/:character/backups/:backup/restore", charactersHandler.RestoreCharacterBackup)
 
 		// Individual chats routes
 		api.GET("/chats/:character", chatsHandler.GetCharacterChats)

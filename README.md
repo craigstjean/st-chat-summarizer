@@ -19,6 +19,7 @@
 
 ### TODO
 
+- [X] Add ability to view and restore backups
 - [ ] Make number of words in summary configurable
 - [ ] Allow multi part summaries (based on a number of tokens, summarize the first X tokens, then the next, and so on, then summarize the summaries)
     - The entire point of this is to summarize for when we've exceeded the model's context window, so this is essential
