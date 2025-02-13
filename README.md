@@ -17,6 +17,12 @@
 
 - Just to see the current state of Gen AI ;)
 
+### TODO
+
+- [ ] Make number of words in summary configurable
+- [ ] Allow multi part summaries (based on a number of tokens, summarize the first X tokens, then the next, and so on, then summarize the summaries)
+    - The entire point of this is to summarize for when we've exceeded the model's context window, so this is essential
+
 ---
 
 > :warning: Everything below was AI generated
@@ -51,6 +57,11 @@ ln -s /path/to/your/SillyTavern/data ./data
 3. Ensure Ollama is running locally on port 11434 on host 0.0.0.0.
 ```bash
 OLLAMA_HOST=0.0.0.0 ollama serve
+```
+
+4. Ensure Ollama has models to work with. If you need a starting model, try:
+```bash
+ollama pull llama3.2
 ```
 
 ## Running with Docker
