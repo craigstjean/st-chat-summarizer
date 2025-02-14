@@ -1,7 +1,6 @@
 # Notes
 
 - I tried to let the AI do as much as possible, even if I knew the answer
-- I have created React and Next.js apps, but since Claude only gave me a single component I wanted to see how it would handle the entire app
 
 ---
 
@@ -31,6 +30,7 @@
 
 - Let's create a React app for the APIs defined in api.txt, which will be listening on host localhost:8080. To start, just setup the infrastructure for React with Tailwind
 - I've never made a react app before, walk me through the basics to get to this point.
+    - (Definitely a lie, but since Claude only gave me a single component I wanted to see how it would handle this question)
 - Let's remove the model listing from the page, and use a tabbed interface - 1 tab for Characters, one for Group Chats
 - Now, if the user clicks a Character, it should list the chats available for that character. If they then click the chat, it should show the chat contents along with a button to Summarize
 - Close, but when we summarize the content we are expecting plain text back which should maybe show in a popup (not JSON)
