@@ -196,10 +196,8 @@ func (s *SillyTavernService) GetCharacterBackups(user, character string) ([]stri
 		// Create a content hash based on the messages
 		var contentBuilder strings.Builder
 		for _, msg := range messages {
-			if msg.Message != "" {
-				contentBuilder.WriteString(msg.Name)
-				contentBuilder.WriteString(msg.Message)
-			}
+			contentBuilder.WriteString(msg.Name)
+			contentBuilder.WriteString(msg.Message)
 		}
 		contentHash := contentBuilder.String()
 
@@ -276,7 +274,9 @@ func (s *SillyTavernService) GetCharacterBackup(user, character, backup string) 
 			return nil, fmt.Errorf("error parsing JSON at line %d: %w", lineNum, err)
 		}
 
-		messages = append(messages, message)
+		if message.Message != "" {
+			messages = append(messages, message)
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
