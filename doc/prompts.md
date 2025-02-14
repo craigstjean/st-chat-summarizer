@@ -102,5 +102,6 @@
 ## GoLang Backend
 
 - (Context: codebase) Let's add an API to return back all of the current users. Users are the directories in config.GetSTDataPath() which do not start with an underscore. Return as a JSON string array
+- (Context: sillytavern.go) In some cases, backups will be duplicates of eachother if you just look at the data returned by GetCharacterBackup (ignoring other data in the file itself). What if GetCharacterBackups was updated to also eliminate these duplicates?
 
 

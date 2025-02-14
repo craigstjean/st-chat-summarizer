@@ -184,18 +184,43 @@ func (s *SillyTavernService) GetCharacterBackups(user, character string) ([]stri
 		return nil, fmt.Errorf("failed to list backups: %w", err)
 	}
 
-	// Extract just the filenames
-	backups := make([]string, len(matches))
-	for i, match := range matches {
-		backups[i] = filepath.Base(match)
+	// Map to track unique content hashes
+	seen := make(map[string]string) // hash -> filename
+	for _, match := range matches {
+		// Read the backup content
+		messages, err := s.GetCharacterBackup(user, character, filepath.Base(match))
+		if err != nil {
+			continue // Skip files we can't read
+		}
+
+		// Create a content hash based on the messages
+		var contentBuilder strings.Builder
+		for _, msg := range messages {
+			if msg.Message != "" {
+				contentBuilder.WriteString(msg.Name)
+				contentBuilder.WriteString(msg.Message)
+			}
+		}
+		contentHash := contentBuilder.String()
+
+		// If we haven't seen this content before, or if this is a newer file with the same content
+		if existingFile, exists := seen[contentHash]; !exists || filepath.Base(match) > existingFile {
+			seen[contentHash] = filepath.Base(match)
+		}
+	}
+
+	// Collect unique filenames
+	uniqueBackups := make([]string, 0, len(seen))
+	for _, filename := range seen {
+		uniqueBackups = append(uniqueBackups, filename)
 	}
 
 	// Sort in reverse chronological order (newest first)
-	sort.Slice(backups, func(i, j int) bool {
-		return backups[i] > backups[j]
+	sort.Slice(uniqueBackups, func(i, j int) bool {
+		return uniqueBackups[i] > uniqueBackups[j]
 	})
 
-	return backups, nil
+	return uniqueBackups, nil
 }
 
 func (s *SillyTavernService) GetCharacterBackup(user, character, backup string) ([]models.ChatMessage, error) {
