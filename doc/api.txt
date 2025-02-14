@@ -1,0 +1,54 @@
+GET /api/models
+JSON Response:
+[
+    {
+        "name": "<name>",
+        "model": "<model>"
+    }
+]
+
+GET /api/characters
+JSON Response:
+[
+    "<name>"
+]
+
+GET /api/groupChats
+JSON Response:
+[
+    {
+        "name": "<name>",
+        "members": [
+            "<name>"
+        ]
+        "chats": [
+            "<chat>"
+        ]
+    }
+]
+
+GET /api/chats/{character}
+JSON Response:
+[
+    "<name>"
+]
+
+GET /api/chats/{character}/{chat}
+jsonl Response:
+{"user_name":"<Username>","character_name":"<Character Name>","create_date":"2025-02-11@23h33m09s","chat_metadata":{}}
+{"name":"<Character Name>","is_user":false,"is_system":false,"send_date":"February 11, 2025 11:33pm","mes":"<Text>"],"swipe_info":[]}
+
+GET /api/chats/{character}/{chat}/summary
+Text Response:
+<text>
+
+GET /api/groupChats/{chat}
+JSON Response:
+jsonl Response:
+{"name":"<Character 1 Name>","is_user":false,"is_system":false,"send_date":"February 11, 2025 8:50pm","mes":"<Text>","extra":{},"swipe_id":1,"swipes":["<Text>"],"swipe_info":[],"is_group":true,"original_avatar":"<Character>.png","force_avatar":"/thumbnail?type=avatar&file=<Character>.png"}
+{"name":"<Username>","is_user":true,"is_system":false,"send_date":"February 11, 2025 8:57pm","mes":"<Text>","extra":{"isSmallSys":false},"force_avatar":"User Avatars/<User>.png"}
+{"extra":{"api":"featherless","model":"deepseek-ai/DeepSeek-R1","display_text":"<Text>"},"name":"<Character 1 Name>","is_user":false,"send_date":"February 11, 2025 8:57pm","mes":"<Text>","gen_started":"2025-02-12T01:57:05.934Z","gen_finished":"2025-02-12T01:58:50.715Z","swipe_id":0,"swipes":["<Text>"],"swipe_info":[{"send_date":"February 11, 2025 8:57pm","gen_started":"2025-02-12T01:57:05.934Z","gen_finished":"2025-02-12T01:58:50.715Z","extra":{"api":"featherless","model":"deepseek-ai/DeepSeek-R1"}}],"is_system":false,"original_avatar":"<Character>.png","force_avatar":"/thumbnail?type=avatar&file=<Character>.png"}
+
+GET /api/groupChats/{chat}/summary
+Text Response:
+<text>

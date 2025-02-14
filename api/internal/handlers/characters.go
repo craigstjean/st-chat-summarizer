@@ -82,3 +82,15 @@ func (h *CharactersHandler) RestoreCharacterBackup(c *gin.Context) {
 		"newFileName": newFileName,
 	})
 }
+
+func (h *CharactersHandler) GetUsers(c *gin.Context) {
+	users, err := h.stService.GetUsers()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, users)
+}

@@ -44,6 +44,7 @@ func initializeRoutes(r *gin.Engine) {
 		api.GET("/models", modelsHandler.GetModels)
 
 		// Characters routes
+		api.GET("/users", charactersHandler.GetUsers)
 		api.GET("/characters", charactersHandler.GetCharacters)
 		api.GET("/characters/:character/backups", charactersHandler.GetCharacterBackups)
 		api.GET("/characters/:character/backups/:backup", charactersHandler.GetCharacterBackup)

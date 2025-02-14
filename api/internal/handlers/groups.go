@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"craigstjean.com/stsummarizer/internal/services"
@@ -62,6 +63,19 @@ func (h *GroupsHandler) GetGroupChat(c *gin.Context) {
 func (h *GroupsHandler) GetGroupChatSummary(c *gin.Context) {
 	user := c.Query("user")
 	model := c.Query("model")
+
+	maxTokensStr := c.DefaultQuery("max_tokens", "3500")
+	maxTokens, err := strconv.Atoi(maxTokensStr)
+	if err != nil {
+		maxTokens = 3500
+	}
+
+	summaryWordsStr := c.DefaultQuery("summary_words", "400")
+	summaryWords, err := strconv.Atoi(summaryWordsStr)
+	if err != nil {
+		summaryWords = 400
+	}
+
 	chat := c.Param("chat")
 
 	// Get chat messages
@@ -80,10 +94,10 @@ func (h *GroupsHandler) GetGroupChatSummary(c *gin.Context) {
 		return
 	}
 
-	messageContent := renderMessages(messages)
+	messageContent := renderMessagesForSummary(messages)
 
 	// Get summary from Ollama
-	summary, err := h.ollamaService.SummarizeChat(model, messageContent)
+	summary, err := h.ollamaService.SummarizeChat(model, messageContent, maxTokens, summaryWords)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": fmt.Sprintf("failed to generate summary: %v", err),
@@ -91,5 +105,5 @@ func (h *GroupsHandler) GetGroupChatSummary(c *gin.Context) {
 		return
 	}
 
-	c.String(http.StatusOK, summary)
+	c.JSON(http.StatusOK, summary)
 }
