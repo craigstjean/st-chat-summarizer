@@ -1,7 +1,5 @@
 # Findings
 
-- I tried to let the AI do as much as possible, even if I knew the answer
-- I have created React and Next.js apps, but since Claude only gave me a single component I wanted to see how it would handle the entire app
 - I used the Claude Desktop/Web app more than the other tools as I was not initially trying to compare different tools
 
 ## Tech Stack

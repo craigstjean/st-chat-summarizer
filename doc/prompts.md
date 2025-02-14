@@ -1,3 +1,10 @@
+# Notes
+
+- I tried to let the AI do as much as possible, even if I knew the answer
+- I have created React and Next.js apps, but since Claude only gave me a single component I wanted to see how it would handle the entire app
+
+---
+
 # Claude (Desktop/Web App)
 
 ## GoLang Backend (**Claude 3.5 Sonnet**)
