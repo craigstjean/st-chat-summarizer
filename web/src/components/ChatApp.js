@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CharacterBackupsButton } from '@/components/CharacterBackupsButton';
 import { CharacterSummaryDialog } from "@/components/CharacterSummaryDialog";
-import { ChevronLeft, Menu, MessageCircle, MessageSquare, Settings, UserCircle, Users, HelpCircle } from 'lucide-react';
+import { ChevronLeft, Menu, MessageCircle, MessageSquare, Settings, UserCircle, Users, HelpCircle, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -418,14 +418,6 @@ const ChatApp = ({ apiBaseUrl }) => {
         }
     };
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <p className="text-lg">Loading...</p>
-            </div>
-        );
-    }
-
     if (error) {
         return (
             <div className="flex items-center justify-center min-h-screen">
@@ -637,6 +629,14 @@ const ChatApp = ({ apiBaseUrl }) => {
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50 to-white">
+            {loading && (
+                <div className="fixed inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="flex flex-col items-center gap-2 text-lg">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            )}
             <Header />
             <SettingsDialog
                 open={settingsOpen}

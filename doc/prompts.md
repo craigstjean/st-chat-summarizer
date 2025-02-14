@@ -95,6 +95,9 @@
 - (Context: ChatApp.js) Let's add a tooltip on the settings dialog by the max tokens label to inform the user that we are assuming their model supports (by default) 4k tokens, however have reduced by 100 to allow for the added instructions asking the model to generate a summary for us.
 - (Context: codebase) In ChatApp.js, let's change the Username text box to be a dropdown that comes from the API at /users (which returns a JSON string array). The default value for Username should be "default-user"
 - (Context: codebase) The app footer shows after the content, can it be fixed to the bottom of the screen if the content does not extend all the way down?
+- (Context: ChatApp.js) I like the loading overlay, but can it be semi transparent and have a spinner?
+- (Context: ChatApp.js) Hmm, I still only get a white background when the loading overlay is there. Can it be on top of the existing screen?
+- (Context: CharacterSummaryDialog.js) The summary dialog changes height depending on the content, can it instead be fixed to 75% of the screen?
 
 ## GoLang Backend
 
