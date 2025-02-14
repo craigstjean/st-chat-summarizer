@@ -19,11 +19,11 @@
 
 ### Findings
 
-- [Findings](./findings.md)
+- [Findings](./doc/findings.md)
 
 ### Prompts
 
-- [Prompts](./prompts.md)
+- [Prompts](./doc/prompts.md)
 
 ---
 
