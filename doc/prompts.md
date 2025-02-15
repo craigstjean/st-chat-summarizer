@@ -98,10 +98,22 @@
 - (Context: ChatApp.js) I like the loading overlay, but can it be semi transparent and have a spinner?
 - (Context: ChatApp.js) Hmm, I still only get a white background when the loading overlay is there. Can it be on top of the existing screen?
 - (Context: CharacterSummaryDialog.js) The summary dialog changes height depending on the content, can it instead be fixed to 75% of the screen?
+- (Context: codebase) ChatApp.js does quite a lot, wouldn't it be better to refactor some of the components to individual files?
+- (Context: ChatApp.js, ChatContent.js) Finish ChatContent.js
+- (Context: codebase) Now that we've refactored ChatApp.js into separate files, update ChatApp.js to use the other components
+- (Context: ChatApp.js) I notice you removed SettingsDialog but never created a SettingsDialog.js
+- (Context: ChatApp.js) Is it typical to have all of the useEffects and handlers that are in ChatApp.js, or should those be refactored? Follow best practices.
+- (Context: codebase) Now that we've refactored, when I try to go to the main page the loading spinner starts and never stops and it appears my API calls are never made.
+- (Context: codebase) With that change, now the page goes into an infinite loop of reloading the characters from the API...
+- (Context: codebase) We are still in an infinite loop of reloading...
+- (Context: codebase) We are still in an infinite loop of reloading...
+- (Context: codebase) useChatState.js tries to call setLoading, but has no reference to that function
+- (Context: codebase) Since we've refactored, if I try to reload the page while on a group chat, I just get an empty shell with a title of "Discussions"
 
 ## GoLang Backend
 
 - (Context: codebase) Let's add an API to return back all of the current users. Users are the directories in config.GetSTDataPath() which do not start with an underscore. Return as a JSON string array
 - (Context: sillytavern.go) In some cases, backups will be duplicates of eachother if you just look at the data returned by GetCharacterBackup (ignoring other data in the file itself). What if GetCharacterBackups was updated to also eliminate these duplicates?
+- (Context: codebase) sillytavern.go does way too much, break it up to follow best practices
 
 

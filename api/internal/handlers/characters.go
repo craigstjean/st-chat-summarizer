@@ -8,10 +8,10 @@ import (
 )
 
 type CharactersHandler struct {
-	stService *services.SillyTavernService
+	stService services.SillyTavernService
 }
 
-func NewCharactersHandler(stService *services.SillyTavernService) *CharactersHandler {
+func NewCharactersHandler(stService services.SillyTavernService) *CharactersHandler {
 	return &CharactersHandler{
 		stService: stService,
 	}

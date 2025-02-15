@@ -11,11 +11,11 @@ import (
 )
 
 type ChatsHandler struct {
-	stService     *services.SillyTavernService
+	stService     services.SillyTavernService
 	ollamaService *services.OllamaService
 }
 
-func NewChatsHandler(stService *services.SillyTavernService, ollamaService *services.OllamaService) *ChatsHandler {
+func NewChatsHandler(stService services.SillyTavernService, ollamaService *services.OllamaService) *ChatsHandler {
 	return &ChatsHandler{
 		stService:     stService,
 		ollamaService: ollamaService,

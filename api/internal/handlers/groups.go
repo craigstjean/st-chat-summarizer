@@ -11,11 +11,11 @@ import (
 )
 
 type GroupsHandler struct {
-	stService     *services.SillyTavernService
+	stService     services.SillyTavernService
 	ollamaService *services.OllamaService
 }
 
-func NewGroupsHandler(stService *services.SillyTavernService, ollamaService *services.OllamaService) *GroupsHandler {
+func NewGroupsHandler(stService services.SillyTavernService, ollamaService *services.OllamaService) *GroupsHandler {
 	return &GroupsHandler{
 		stService:     stService,
 		ollamaService: ollamaService,

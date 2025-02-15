@@ -60,4 +60,6 @@
     - GPT-4o was more verbose in explaining its process and next steps
     - GPT-4o was worse at keeping consistency with the project
     - GPT-4o was more likely to also proactively give me instructions on how to text the code
+- Maintainability
+    - Once you have a file that might reasonably be resonposible for the code you are generating, the models are more than happy to just keep adding to it. They will not recommend splitting up a file, or identify violations of SOLID principles, unless you explicity tell it to refactor (which it is **really** bad at doing).
 

@@ -6,6 +6,7 @@ import (
 	"craigstjean.com/stsummarizer/internal/handlers"
 	"craigstjean.com/stsummarizer/internal/middleware"
 	"craigstjean.com/stsummarizer/internal/services"
+	"craigstjean.com/stsummarizer/internal/services/sillytavern"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +30,7 @@ func main() {
 func initializeRoutes(r *gin.Engine) {
 	// Initialize services
 	ollamaService := services.NewOllamaService()
-	stService := services.NewSillyTavernService()
+	stService := sillytavern.NewService()
 
 	// Initialize handlers
 	modelsHandler := handlers.NewModelsHandler(ollamaService)
