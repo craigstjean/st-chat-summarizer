@@ -1,12 +1,12 @@
 "use client";
 
-import {useState} from 'react';
-import {Button} from '@/components/ui/button';
-import {Dialog, DialogContent, DialogHeader, DialogTitle} from '@/components/ui/dialog';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ReactMarkdown from 'react-markdown';
-import {toast} from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 
-export function CharacterBackupsButton({fetchAPI, username, character}) {
+export function CharacterBackupsButton({ fetchAPI, username, character, selectedGroup }) {
     const [backups, setBackups] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedBackup, setSelectedBackup] = useState(null);
@@ -47,23 +47,19 @@ export function CharacterBackupsButton({fetchAPI, username, character}) {
         }).toString();
 
         try {
-            const encodedCharacter = encodeURIComponent(character);
-            const backups = await fetchAPI(`/characters/${encodedCharacter}/backups?${queryParams}`);
+            const entityName = character || selectedGroup?.name;
+            if (!entityName) return;
 
-            // Sort backups by date (newest first)
-            const sortedBackups = backups.sort((a, b) => {
-                const dateA = parseBackupDate(a);
-                const dateB = parseBackupDate(b);
-                return dateB - dateA;
-            });
+            const encodedName = encodeURIComponent(entityName);
+            const endpoint = character
+                ? `/characters/${encodedName}/backups?${queryParams}`
+                : `/groupChats/${encodedName}/backups?${queryParams}`;
 
-            setBackups(sortedBackups);
-
-            setBackups(sortedBackups);
-            setIsOpen(true);
+            const backupsList = await fetchAPI(endpoint);
+            setBackups(backupsList);
         } catch (error) {
             console.error('Error fetching backups:', error);
-            throw error;
+            toast({ title: 'Error', description: 'Failed to fetch backups', status: 'error' });
         }
     };
 
@@ -74,11 +70,16 @@ export function CharacterBackupsButton({fetchAPI, username, character}) {
                 user: username,
             }).toString();
 
-            const encodedCharacter = encodeURIComponent(character);
+            const entityName = character || selectedGroup?.name;
+            if (!entityName) return;
+
+            const encodedName = encodeURIComponent(entityName);
             const encodedBackup = encodeURIComponent(backup);
-            const content = await fetchAPI(
-                `/characters/${encodedCharacter}/backups/${encodedBackup}?${queryParams}`
-            );
+            const endpoint = character
+                ? `/characters/${encodedName}/backups/${encodedBackup}?${queryParams}`
+                : `/groupChats/${encodedName}/backups/${encodedBackup}?${queryParams}`;
+
+            const content = await fetchAPI(endpoint);
             setBackupContent(content);
             setSelectedBackup(backup);
         } catch (error) {
@@ -92,35 +93,51 @@ export function CharacterBackupsButton({fetchAPI, username, character}) {
     const handleRestore = async () => {
         if (!selectedBackup) return;
 
-        try {
-            const queryParams = new URLSearchParams({
-                user: username,
-            }).toString();
+        const queryParams = new URLSearchParams({
+            user: username,
+        }).toString();
 
-            const encodedCharacter = encodeURIComponent(character);
+        try {
+            const entityName = character || selectedGroup?.name;
+            if (!entityName) return;
+
+            const encodedName = encodeURIComponent(entityName);
             const encodedBackup = encodeURIComponent(selectedBackup);
 
-            const response = await fetchAPI(`/characters/${encodedCharacter}/backups/${encodedBackup}/restore?${queryParams}`, false, 'POST');
+            const endpoint = character
+                ? `/characters/${encodedName}/backups/${encodedBackup}/restore?${queryParams}`
+                : `/groupChats/${encodedName}/backups/${encodedBackup}/restore?${queryParams}`;
 
-            const {message, newFileName} = response;
-            toast({title: message, description: newFileName, status: 'success'})
+            const response = await fetchAPI(endpoint, false, 'POST');
+
+            const { message, newFileName } = response;
+            toast({ title: message, description: newFileName, status: 'success' });
             setIsOpen(false);
         } catch (error) {
             console.error('Error restoring backup:', error);
-            toast({title: 'Error', description: 'Failed to restore backup', status: 'error'})
+            toast({ title: 'Error', description: 'Failed to restore backup', status: 'error' });
         }
+    };
+
+    const handleOpenDialog = async () => {
+        setIsOpen(true);
+        await fetchBackups();
     };
 
     return (
         <>
-            <Button onClick={fetchBackups} variant="secondary" size="sm">
+            <Button
+                onClick={handleOpenDialog}
+                variant="outline"
+                size="sm"
+            >
                 View Backups
             </Button>
 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent className="max-w-[75vw] max-h-[60vh] flex flex-col">
                     <DialogHeader>
-                        <DialogTitle>Character Backups</DialogTitle>
+                        <DialogTitle>Chat Backups</DialogTitle>
                     </DialogHeader>
                     <div className="mt-4 grid grid-cols-[300px_1fr] gap-4 flex-1 min-h-0">
                         {/* Left column - Backup list */}
@@ -136,8 +153,8 @@ export function CharacterBackupsButton({fetchAPI, username, character}) {
                                                 key={index}
                                                 className={`p-2 rounded-md cursor-pointer transition-colors
                                                     ${backup === selectedBackup
-                                                    ? 'bg-primary text-primary-foreground'
-                                                    : 'bg-secondary hover:bg-secondary/80'}`}
+                                                        ? 'bg-primary text-primary-foreground'
+                                                        : 'bg-secondary hover:bg-secondary/80'}`}
                                                 onClick={() => fetchBackupContent(backup)}
                                             >
                                                 {date ? formatBackupDate(date) : backup}

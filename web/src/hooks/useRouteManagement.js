@@ -30,11 +30,14 @@ export function useRouteManagement() {
 
     const getInitialRouteState = () => {
         const pathParts = pathname.split('/').filter(Boolean);
+        const groupName = searchParams.get('group');
+        const groupChat = searchParams.get('chat');
+
         return {
             initialView: pathParts[0] || 'characters',
             initialCharacter: pathParts[1] ? decodeURIComponent(pathParts[1]) : null,
-            initialChat: pathParts[2] ? decodeURIComponent(pathParts[2]) : null,
-            initialGroup: searchParams.get('group')
+            initialChat: pathParts[2] ? decodeURIComponent(pathParts[2]) : groupChat,
+            initialGroup: groupName
         };
     };
 

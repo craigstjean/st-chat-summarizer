@@ -42,6 +42,7 @@ export function ChatContent({
                             fetchAPI={fetchAPI}
                             username={username}
                             character={selectedCharacter}
+                            selectedGroup={selectedGroup}
                         />
                     </div>
                 </div>

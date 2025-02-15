@@ -4,6 +4,7 @@ import { useRouteManagement } from './useRouteManagement';
 export function useChatState(initialState, fetchAPI, { setLoading, setError, username, selectedModel, maxTokens, wordLimit }) {
     const { updateRoute } = useRouteManagement();
     const initialLoadDone = useRef(false);
+    const stableInitialState = useRef(initialState);
     const [characters, setCharacters] = useState([]);
     const [groupChats, setGroupChats] = useState([]);
     const [selectedCharacter, setSelectedCharacter] = useState(initialState.initialCharacter);
@@ -84,26 +85,25 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
                 setUsers(usersData);
 
                 // Handle initial character route
-                if (initialState.initialCharacter && charactersData.includes(initialState.initialCharacter)) {
-                    const chats = await fetchAPI(`/chats/${encodeURIComponent(initialState.initialCharacter)}`);
+                if (stableInitialState.current.initialCharacter && charactersData.includes(stableInitialState.current.initialCharacter)) {
+                    const chats = await fetchAPI(`/chats/${encodeURIComponent(stableInitialState.current.initialCharacter)}`);
                     setCharacterChats(chats);
 
-                    if (initialState.initialChat) {
+                    if (stableInitialState.current.initialChat) {
                         const content = await fetchAPI(
-                            `/chats/${encodeURIComponent(initialState.initialCharacter)}/${encodeURIComponent(initialState.initialChat)}`
+                            `/chats/${encodeURIComponent(stableInitialState.current.initialCharacter)}/${encodeURIComponent(stableInitialState.current.initialChat)}`
                         );
                         setChatContent(content);
                     }
                 }
                 // Handle initial group route
-                else if (initialState.initialGroup) {
-                    const group = groupChatsData.find(g => g.name === initialState.initialGroup);
+                else if (stableInitialState.current.initialGroup) {
+                    const group = groupChatsData.find(g => g.name === stableInitialState.current.initialGroup);
                     if (group) {
                         setSelectedGroup(group);
-                        if (initialState.initialChat) {
-                            const content = await fetchAPI(`/groupChats/${encodeURIComponent(initialState.initialChat)}`);
+                        if (stableInitialState.current.initialChat) {
+                            const content = await fetchAPI(`/groupChats/${encodeURIComponent(stableInitialState.current.initialChat)}`);
                             setChatContent(content);
-                            setSelectedChat(initialState.initialChat);
                         }
                     }
                 }
@@ -118,7 +118,7 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
         };
 
         fetchData();
-    }, [fetchAPI, initialState, setLoading, setError]);
+    }, [fetchAPI, setLoading, setError]);
 
     const handleBack = () => {
         if (selectedChat) {

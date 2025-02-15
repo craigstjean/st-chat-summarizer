@@ -52,6 +52,7 @@
         - Initially, the `ctrl+p` shortcut worked as expected even though I had Vim mode on
             - Shortly after, for some reason it stopped working
             - I resolved by deleting the vim `ctrl+p` shortcut in Preferences
+    - I found that using Undo would sometimes completely mess up what I had if I was going between applying chat recommendations and editing
 
 ## Model Findings
 

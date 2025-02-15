@@ -25,6 +25,11 @@
 
 - [Prompts](./doc/prompts.md)
 
+### TODO
+
+- [ ] The Next.js page calls the APIs many times on page load since we've refactored, and the AI seems to not be able to get this fixed
+- [ ] Group backups are not implemented
+
 ---
 
 > :warning: Everything below was AI generated

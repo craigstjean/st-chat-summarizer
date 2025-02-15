@@ -205,12 +205,7 @@ func (s *SillyTavernService) RestoreCharacterBackup(user, character, backup stri
 			}
 		}
 
-		// Start at Branch #2 if no branch files exist
-		if highestBranch == 1 {
-			highestBranch = 2
-		}
-
-		newFileName = fmt.Sprintf("Branch #%d - %s.jsonl", highestBranch, time.Now().Format("2006-01-02@15h04m05s"))
+		newFileName = fmt.Sprintf("Branch #%d - %s.jsonl", highestBranch+1, time.Now().Format("2006-01-02@15h04m05s"))
 	}
 
 	// Copy the backup file to the chat directory

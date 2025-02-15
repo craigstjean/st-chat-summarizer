@@ -109,11 +109,15 @@
 - (Context: codebase) We are still in an infinite loop of reloading...
 - (Context: codebase) useChatState.js tries to call setLoading, but has no reference to that function
 - (Context: codebase) Since we've refactored, if I try to reload the page while on a group chat, I just get an empty shell with a title of "Discussions"
+- (Context: codebase) Since we've refactored, if I refresh from a group's chat it just goes back to that group's chat listing. I am guessing the routing is not picking up the chat parameter.
+- (Context: codebase) When we query for backups from a group, or select to restore, we should use the group name as the character name in the API call
+- (Context: codebase) Now, if I click View Backups from a character chat, nothing happens but a screen flicker.
+- (Context: codebase) When I refresh a page, each API is called around 8 times instead of 1 on load
+- (Context: codebase) The page still reloads a lot on initial load
 
 ## GoLang Backend
 
 - (Context: codebase) Let's add an API to return back all of the current users. Users are the directories in config.GetSTDataPath() which do not start with an underscore. Return as a JSON string array
 - (Context: sillytavern.go) In some cases, backups will be duplicates of eachother if you just look at the data returned by GetCharacterBackup (ignoring other data in the file itself). What if GetCharacterBackups was updated to also eliminate these duplicates?
 - (Context: codebase) sillytavern.go does way too much, break it up to follow best practices
-
 
