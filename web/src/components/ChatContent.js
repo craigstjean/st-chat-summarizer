@@ -115,7 +115,7 @@ export function ChatContent({
 
             <TabsContent value="characters" className="mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {characters.map((character, index) => (
+                    {(characters||[]).map((character, index) => (
                         <div
                             key={index}
                             className="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-100 hover:border-blue-200"
@@ -137,7 +137,7 @@ export function ChatContent({
 
             <TabsContent value="groupChats" className="mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {groupChats.map((chat, index) => (
+                    {(groupChats||[]).map((chat, index) => (
                         <div
                             key={index}
                             className="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-100 hover:border-blue-200"
@@ -160,4 +160,4 @@ export function ChatContent({
             </TabsContent>
         </Tabs>
     );
-} 
+}

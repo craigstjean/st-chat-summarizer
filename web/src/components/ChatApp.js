@@ -73,6 +73,13 @@ const ChatApp = ({ apiBaseUrl }) => {
                                 {...chatState}
                                 username={username}
                                 fetchAPI={fetchAPI}
+                                selectedChat={chatState.selectedChat}
+                                chatContent={chatState.chatContent}
+                                selectedCharacter={chatState.selectedCharacter}
+                                selectedGroup={chatState.selectedGroup}
+                                characters={chatState.characters}
+                                groupChats={chatState.groupChats}
+                                characterChats={chatState.characterChats}
                                 onCharacterSelect={chatState.handleCharacterSelect}
                                 onGroupSelect={chatState.handleGroupSelect}
                                 onChatSelect={chatState.handleChatSelect}

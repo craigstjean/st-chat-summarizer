@@ -27,7 +27,11 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
             setSelectedChat(null);
             setChatContent(null);
 
-            const chats = await fetchAPI(`/chats/${encodeURIComponent(character)}`);
+            const queryParams = new URLSearchParams({
+                user: username,
+            }).toString();
+
+            const chats = await fetchAPI(`/chats/${encodeURIComponent(character)}?${queryParams}`);
             setCharacterChats(chats);
 
             updateRoute('characters', character);
@@ -52,12 +56,16 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
         try {
             setSelectedChat(chat);
 
+            const queryParams = new URLSearchParams({
+                user: username,
+            }).toString();
+
             let content;
             if (selectedCharacter) {
-                content = await fetchAPI(`/chats/${encodeURIComponent(selectedCharacter)}/${encodeURIComponent(chat)}`);
+                content = await fetchAPI(`/chats/${encodeURIComponent(selectedCharacter)}/${encodeURIComponent(chat)}?${queryParams}`);
                 updateRoute('characters', selectedCharacter, chat);
             } else if (selectedGroup) {
-                content = await fetchAPI(`/groupChats/${encodeURIComponent(chat)}`);
+                content = await fetchAPI(`/groupChats/${encodeURIComponent(chat)}?${queryParams}`);
                 updateRoute('groupChats', null, chat, selectedGroup);
             }
             setChatContent(content);
@@ -72,9 +80,13 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
         const fetchData = async () => {
             try {
                 setLoading(true);
+                const queryParams = new URLSearchParams({
+                    user: username,
+                }).toString();
+
                 const [charactersData, groupChatsData, modelsData, usersData] = await Promise.all([
-                    fetchAPI('/characters'),
-                    fetchAPI('/groupChats'),
+                    fetchAPI(`/characters?${queryParams}`),
+                    fetchAPI(`/groupChats?${queryParams}`),
                     fetchAPI('/models'),
                     fetchAPI('/users'),
                 ]);
@@ -86,12 +98,12 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
 
                 // Handle initial character route
                 if (stableInitialState.current.initialCharacter && charactersData.includes(stableInitialState.current.initialCharacter)) {
-                    const chats = await fetchAPI(`/chats/${encodeURIComponent(stableInitialState.current.initialCharacter)}`);
+                    const chats = await fetchAPI(`/chats/${encodeURIComponent(stableInitialState.current.initialCharacter)}?${queryParams}`);
                     setCharacterChats(chats);
 
                     if (stableInitialState.current.initialChat) {
                         const content = await fetchAPI(
-                            `/chats/${encodeURIComponent(stableInitialState.current.initialCharacter)}/${encodeURIComponent(stableInitialState.current.initialChat)}`
+                            `/chats/${encodeURIComponent(stableInitialState.current.initialCharacter)}/${encodeURIComponent(stableInitialState.current.initialChat)}?${queryParams}`
                         );
                         setChatContent(content);
                     }
@@ -102,7 +114,7 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
                     if (group) {
                         setSelectedGroup(group);
                         if (stableInitialState.current.initialChat) {
-                            const content = await fetchAPI(`/groupChats/${encodeURIComponent(stableInitialState.current.initialChat)}`);
+                            const content = await fetchAPI(`/groupChats/${encodeURIComponent(stableInitialState.current.initialChat)}?${queryParams}`);
                             setChatContent(content);
                         }
                     }
@@ -187,4 +199,4 @@ export function useChatState(initialState, fetchAPI, { setLoading, setError, use
         handleSummarize,
         setSummaryOpen
     };
-} 
+}
